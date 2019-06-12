@@ -12,7 +12,7 @@ jobs:
     - stage: build image
       script:
         - docker build -t alpine-nginx .
-        - docker tag alpine-nginx npmjs/alpine-nginx:latest
-        - docker tag alpine-nginx npmjs/alpine-nginx:$VERSION_TAG
-        - docker push https://gcr.io/npm-image-registry-prod/npmjs/alpine-nginx:latest
-        - docker push https://gcr.io/npm-image-registry-prod/npmjs/alpine-nginx:$VERSION_TAG
+        - docker tag alpine-nginx gcr.io/npm-image-registry-prod/npmjs/alpine-nginx:latest
+        - docker tag alpine-nginx gcr.io/npm-image-registry-prod/npmjs/alpine-nginx:$VERSION_TAG
+        - docker push gcr.io/npm-image-registry-prod/npmjs/alpine-nginx:latest
+        - docker push gcr.io/npm-image-registry-prod/npmjs/alpine-nginx:$VERSION_TAG
