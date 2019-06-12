@@ -5,7 +5,7 @@ env:
 node_js:
 - '8'
 before_install:
-- openssl enc -d -aes-256-cbc -in key.json.enc -pbkdf2 -k ${AES_KEY} -out key.json
+- openssl enc -aes-256-cbc -d -K ${AES_KEY} -iv ${AES_IV} -in key.json.enc -out key.json
 - cat key.json | docker login -u=_json_key --password-stdin https://gcr.io/
 jobs:
   include:
