@@ -2,13 +2,17 @@ sudo: required
 dist: trusty
 env:
   - VERSION_TAG=1.13.1
+node_js:
+- '8'
+before_install:
+- openssl enc -d -aes-256-cbc -in key.json.enc -pbkdf2 -k ${AES_KEY} -out key.json
+- cat key.json | docker login -u=_json_key --password-stdin https://gcr.io/
 jobs:
   include:
     - stage: build image
       script:
-        - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
         - docker build -t alpine-nginx .
-        - docker tag alpine-nginx $DOCKER_USERNAME/alpine-nginx:latest
-        - docker tag alpine-nginx $DOCKER_USERNAME/alpine-nginx:$VERSION_TAG
-        - docker push $DOCKER_USERNAME/alpine-nginx:latest
-        - docker push $DOCKER_USERNAME/alpine-nginx:$VERSION_TAG
+        - docker tag alpine-nginx npmjs/alpine-nginx:latest
+        - docker tag alpine-nginx npmjs/alpine-nginx:$VERSION_TAG
+        - docker push https://gcr.io/npm-image-registry-prod/npmjs/alpine-nginx:latest
+        - docker push https://gcr.io/npm-image-registry-prod/npmjs/alpine-nginx:$VERSION_TAG
