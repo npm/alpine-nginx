@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:latest
 
 MAINTAINER NGINX Docker Maintainers "docker-maint@nginx.com"
 
@@ -151,6 +151,10 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx.vh.default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80 443
+
+RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
+COPY ./root-ca-cert.crt /usr/local/share/ca-certificates/npm-root-ca.crt
+RUN update-ca-certificates
 
 
 STOPSIGNAL SIGTERM
